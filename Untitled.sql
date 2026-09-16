@@ -1,38 +1,35 @@
-CREATE TABLE `diretores` (
-  `id_diretor` integer PRIMARY KEY,
-  `nome` text
+CREATE TABLE `livros` (
+  `id_livro` integer PRIMARY KEY,
+  `titulo` varchar(255) NOT NULL,
+  `ano_publicacao` integer,
+  `genero` varchar(255),
+  `quantidade` integer,
+  `id_autor` integer NOT NULL
 );
 
-CREATE TABLE `generos` (
-  `id_genero` integer PRIMARY KEY,
-  `nome` text
+CREATE TABLE `autores` (
+  `id_autor` integer PRIMARY KEY,
+  `nome` varchar(255) NOT NULL,
+  `nacionalidade` varchar(255)
 );
 
-CREATE TABLE `filmes` (
-  `id_filme` integer PRIMARY KEY,
-  `titulo` text,
-  `id_diretor` integer,
-  `id_genero` integer
+CREATE TABLE `leitores` (
+  `id_leitor` integer PRIMARY KEY,
+  `nome` varchar(255) NOT NULL,
+  `email` varchar(255),
+  `telefone` varchar(255)
 );
 
-CREATE TABLE `espectadores` (
-  `id_espectador` integer PRIMARY KEY,
-  `nome` text,
-  `email` text,
-  `senha` text
+CREATE TABLE `emprestimos` (
+  `id_emprestimo` integer PRIMARY KEY,
+  `id_livro` integer NOT NULL,
+  `id_leitor` integer NOT NULL,
+  `data_emprestimo` date NOT NULL,
+  `data_devolucao` date
 );
 
-CREATE TABLE `ingressos` (
-  `id_ingresso` integer PRIMARY KEY,
-  `id_filme` integer,
-  `id_espectador` integer,
-  `status` text
-);
+ALTER TABLE `livros` ADD FOREIGN KEY (`id_autor`) REFERENCES `autores` (`id_autor`);
 
-ALTER TABLE `filmes` ADD FOREIGN KEY (`id_diretor`) REFERENCES `diretores` (`id_diretor`);
+ALTER TABLE `emprestimos` ADD FOREIGN KEY (`id_livro`) REFERENCES `livros` (`id_livro`);
 
-ALTER TABLE `filmes` ADD FOREIGN KEY (`id_genero`) REFERENCES `generos` (`id_genero`);
-
-ALTER TABLE `ingressos` ADD FOREIGN KEY (`id_filme`) REFERENCES `filmes` (`id_filme`);
-
-ALTER TABLE `ingressos` ADD FOREIGN KEY (`id_espectador`) REFERENCES `espectadores` (`id_espectador`);
+ALTER TABLE `emprestimos` ADD FOREIGN KEY (`id_leitor`) REFERENCES `leitores` (`id_leitor`);
